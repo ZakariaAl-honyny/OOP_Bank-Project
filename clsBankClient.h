@@ -13,12 +13,13 @@ class clsBankClient : public clsPerson
 {
 private:
 
-	enum enMode { EmptyMode = 0, UpdateMode = 1 , AddNewMode = 2};
+	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2};
 
 	enMode _Mode;
 	string _AccountNumber;
 	string _PinCode;
 	float _AccountBalance;
+	bool _MarkdForDelete = false;
 
 	static clsBankClient _ConvertLineToClientObject(string DateLine, string Sperator = "#//#")
 	{
@@ -81,8 +82,12 @@ private:
 
 			for (clsBankClient& Client : vClients)
 			{
-				DataLine = _ConvertClientObjectToLine(Client);
-				MyFile << DataLine << endl;
+				if (Client._MarkdForDelete == false)
+				{
+					//we only write records that are not marked for delete.
+					DataLine = _ConvertClientObjectToLine(Client);
+					MyFile << DataLine << endl;
+				}
 			}
 
 			MyFile.close();
@@ -248,7 +253,7 @@ public:
 		return _GetEmptyClientObject();
 	}
 
-	enum enSaveResults { svFaildEmptyObject = 0, svSucceeded = 1 , svFaildAccountNumberExists = 2};
+	enum enSaveResults { svFaildEmptyObject = 0, svSucceeded = 1, svFaildAccountNumberExists = 2 };
 
 	enSaveResults Save()
 	{
@@ -308,4 +313,31 @@ public:
 		return clsBankClient(enMode::AddNewMode, "", "", "", "", AccountNumber, "", 0);
 	}
 
+	bool Delete()
+	{
+		vector <clsBankClient> _vClients;
+		_vClients = _LoadClientsDataFromFile();
+
+		for (clsBankClient& Client : _vClients)
+		{
+			if (Client.AccountNumber() == _AccountNumber)
+			{
+				Client._MarkdForDelete = true;
+				break;
+			}
+
+		}
+
+		_SaveClientsDataToFile(_vClients);
+
+		*this = _GetEmptyClientObject();
+
+		return true;
+	}
+
 };
+
+
+
+
+

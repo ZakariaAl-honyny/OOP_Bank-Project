@@ -117,14 +117,51 @@ void AddNewClient()
         cout << "\nError Acount was not saved because account number is used!\n";
         break;
     }
-    
+
     }
 
 }
 
+//Delete Client Solution
+
+void DeleteClient()
+{
+    string AccountNumber = "";
+
+    cout << "\nPlease Enter Client Account Number: ";
+    AccountNumber = clsInputValidate::ReadString();
+
+    while (!clsBankClient::IsClientExist(AccountNumber))
+    {
+        cout << "\nAccount number is not found, chooce anther one: ";
+        AccountNumber = clsInputValidate::ReadString();
+    }
+
+    clsBankClient DeleteClient = clsBankClient::Find(AccountNumber);
+    DeleteClient.Print();
+
+    cout << "\nAre you sure you want to delete this client Enter y/n ?: ";
+
+    char Answer = 'n';
+    cin >> Answer;
+
+    if (Answer == 'Y' || Answer == 'y')
+    {
+        if (DeleteClient.Delete())
+        {
+            cout << "\Client Deleted Successfully :-)\n";
+            DeleteClient.Print();
+        }
+        else
+        {
+            cout << "\nError client was not Deleted :-(\n";
+        }
+    }
+}
+
 int main()
 {
-    AddNewClient();
+    DeleteClient();
     system("pause>0");
     return 0;
 }
