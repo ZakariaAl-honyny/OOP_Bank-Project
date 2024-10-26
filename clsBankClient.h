@@ -7,20 +7,23 @@
 #include "clsPerson.h";
 #include "clsString.h";
 
-class clsBankClient : clsPerson
+using namespace std;
+
+class clsBankClient : public clsPerson
 {
 private:
 
-	enum enMode {EmptyMode = 0, UpdateMode = 1};
+	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
 
 	enMode _Mode;
 	string _AccountNumber;
 	string _PinCode;
-	double _AccountBalance;
+	float _AccountBalance;
+	bool _MarkdForDelete = false;
 
 	static clsBankClient _ConvertLineToClientObject(string DateLine, string Sperator = "#//#")
 	{
-		
+
 		vector<string> vClientData;
 		vClientData = clsString::Split(DateLine, Sperator);
 
@@ -79,8 +82,12 @@ private:
 
 			for (clsBankClient& Client : vClients)
 			{
-				DataLine = _ConvertClientObjectToLine(Client);
-				MyFile << DataLine << endl;
+				if (Client._MarkdForDelete == false)
+				{
+					//we only write records that are not marked for delete.
+					DataLine = _ConvertClientObjectToLine(Client);
+					MyFile << DataLine << endl;
+				}
 			}
 
 			MyFile.close();
@@ -105,6 +112,11 @@ private:
 		_SaveClientsDataToFile(_vClients);
 	}
 
+	void _AddNew()
+	{
+		_AddDataLineToFile(_ConvertClientObjectToLine(*this));
+	}
+
 	void _AddDataLineToFile(string stDataLine)
 	{
 		fstream MyFile;
@@ -127,7 +139,7 @@ private:
 public:
 
 	clsBankClient(enMode Mode, string FirstName, string LastName, string Email, string Phone, string AccountNumber,
-		string PinCode, double AccountBalance) : clsPerson(FirstName, LastName, Email, Phone)
+		string PinCode, float AccountBalance) : clsPerson(FirstName, LastName, Email, Phone)
 	{
 		_Mode = Mode;
 		_AccountNumber = AccountNumber;
@@ -146,11 +158,13 @@ public:
 		return _AccountNumber;
 	}
 
+	//Property Set
 	void SetPinCode(string PinCode)
 	{
 		_PinCode = PinCode;
 	}
 
+	//Property Get
 	string GetPinCode()
 	{
 		return _PinCode;
@@ -158,17 +172,17 @@ public:
 
 	__declspec(property(get = GetPinCode, put = SetPinCode)) string PinCode;
 
-	void SetAccountBalance(double ClientBalance)
+	void SetAccountBalance(float AccountBalance)
 	{
-		_PinCode = PinCode;
+		_AccountBalance = AccountBalance;
 	}
 
-	double GetAccountBalance()
+	float GetAccountBalance()
 	{
 		return _AccountBalance;
 	}
 
-	__declspec(property(get = GetAccountBalance, put = SetAccountBalance)) double AccountBalance;
+	__declspec(property(get = GetAccountBalance, put = SetAccountBalance)) float AccountBalance;
 
 	void Print()
 	{
@@ -239,24 +253,50 @@ public:
 		return _GetEmptyClientObject();
 	}
 
-	enum enSaveResults {svFaildEmptyObject = 0, svSucceeded = 1};
+	enum enSaveResults { svFaildEmptyObject = 0, svSucceeded = 1, svFaildAccountNumberExists = 2 };
 
 	enSaveResults Save()
 	{
 		switch (_Mode)
 		{
-			case enMode::EmptyMode:
+
+		case enMode::EmptyMode:
+		{
+			if (IsEmpty())
 			{
 				return enSaveResults::svFaildEmptyObject;
 			}
+			break;
+		}
 
-			case enMode::UpdateMode:
+		case enMode::UpdateMode:
+		{
+
+			_Update();
+
+			return enSaveResults::svSucceeded;
+
+			break;
+		}
+
+		case enMode::AddNewMode:
+		{
+			//This will add new record to ffile or database
+			if (clsBankClient::IsClientExist(_AccountNumber))
 			{
+				return enSaveResults::svFaildAccountNumberExists;
+			}
+			else
+			{
+				_AddNew();
 
-				_Update();
-
+				//we will need to set the mode to update after add new
+				_Mode = enMode::UpdateMode;
 				return enSaveResults::svSucceeded;
 			}
+
+			break;
+		}
 
 		}
 	}
@@ -267,4 +307,51 @@ public:
 
 		return (!Client1.IsEmpty());
 	}
-};                                                         
+
+	static clsBankClient GetAddNewClientObject(string AccountNumber)
+	{
+		return clsBankClient(enMode::AddNewMode, "", "", "", "", AccountNumber, "", 0);
+	}
+
+	bool Delete()
+	{
+		vector <clsBankClient> _vClients;
+		_vClients = _LoadClientsDataFromFile();
+
+		for (clsBankClient& Client : _vClients)
+		{
+			if (Client.AccountNumber() == _AccountNumber)
+			{
+				Client._MarkdForDelete = true;
+				break;
+			}
+
+		}
+
+		_SaveClientsDataToFile(_vClients);
+
+		*this = _GetEmptyClientObject();
+
+		return true;
+	}
+
+	static vector <clsBankClient> GetClientsList()
+	{
+		return _LoadClientsDataFromFile();
+	}
+
+	static double GetTotalBalances()
+	{
+		vector <clsBankClient> vClients = GetClientsList();
+
+		double TotalBalances = 0;
+
+		for (clsBankClient Client : vClients)
+		{
+			TotalBalances += Client.AccountBalance;
+		}
+
+		return TotalBalances;
+	}
+
+};
