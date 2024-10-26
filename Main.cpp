@@ -3,6 +3,7 @@
 #include <iomanip>
 #include "clsBankClient.h";
 #include "clsInputValidate.h";
+#include "clsUitil.h";
 
 //Update Client Solution
 void ReadClientInfo(clsBankClient& Client)
@@ -175,7 +176,7 @@ void PrintClientRecordLine(clsBankClient Client)
     cout << "|" << left << setw(20) << Client.Email;
     cout << "|" << left << setw(10) << Client.PinCode;
     cout << "|" << left << setw(12) << Client.AccountBalance;
-    
+
 }
 
 void ShowClientsList()
@@ -209,10 +210,49 @@ void ShowClientsList()
 
 }
 
+//Total Balances Solution
+
+void PrintClientRecordBalanceLine(clsBankClient Client)
+{
+    cout << "|" << left << setw(15) << Client.AccountNumber();
+    cout << "|" << left << setw(40) << Client.FullName();
+    cout << "|" << left << setw(12) << Client.AccountBalance;
+}
+
+void ShowTotalBalances()
+{
+    vector<clsBankClient> vClients = clsBankClient::GetClientsList();
+
+    cout << "\n\t\t\tClient list (" << vClients.size() << ") Client(s).\n";
+
+    cout << "\n_______________________________________________________________________\n" << endl;
+    cout << "|" << left << setw(15) << "Account Number";
+    cout << "|" << left << setw(40) << "Client Name";
+    cout << "|" << left << setw(12) << "Balance";
+    cout << "\n_______________________________________________________________________\n" << endl;
+
+    double TotalBalances = clsBankClient::GetTotalBalances();
+
+    if (vClients.size() == 0)
+        cout << "\t\t\tno Clients Available In the System :-(";
+    else
+    {
+
+        for (clsBankClient& Client : vClients)
+        {
+            PrintClientRecordBalanceLine(Client);
+            cout << endl;
+        }
+
+    }
+    cout << "\n_______________________________________________________________________\n" << endl; cout << "\t\t\tTotal Balances = " << TotalBalances;
+    cout << "\n\t\t\t(" << clsUitil::NumberToText(TotalBalances) << ")" << endl;
+
+}
 
 int main()
 {
-    ShowClientsList();
+    ShowTotalBalances();
     system("pause>0");
     return 0;
 }

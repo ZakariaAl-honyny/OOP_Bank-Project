@@ -281,7 +281,7 @@ public:
 
 		case enMode::AddNewMode:
 		{
-			//This will add new record to file or database
+			//This will add new record to ffile or database
 			if (clsBankClient::IsClientExist(_AccountNumber))
 			{
 				return enSaveResults::svFaildAccountNumberExists;
@@ -340,9 +340,18 @@ public:
 		return _LoadClientsDataFromFile();
 	}
 
+	static double GetTotalBalances()
+	{
+		vector <clsBankClient> vClients = GetClientsList();
+
+		double TotalBalances = 0;
+
+		for (clsBankClient Client : vClients)
+		{
+			TotalBalances += Client.AccountBalance;
+		}
+
+		return TotalBalances;
+	}
+
 };
-
-
-
-
-
