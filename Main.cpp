@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <iomanip>
 #include "clsBankClient.h";
 #include "clsInputValidate.h";
 
@@ -46,6 +47,11 @@ void UpdateClient()
     cout << "\nUpdate Client Info:";
     cout << "\n______________________\n";
 
+    //Update just one item from data Client
+   /* Client1.Phone = "421252343434";
+    Client1.Save();*/
+
+    //Update all Info Client
     ReadClientInfo(Client1);
 
     clsBankClient::enSaveResults SaveResult;
@@ -159,12 +165,64 @@ void DeleteClient()
     }
 }
 
+//List Clients Solution
+
+void PrintClientRecordLine(clsBankClient Client)
+{
+    cout << "|" << left << setw(15) << Client.AccountNumber();
+    cout << "|" << left << setw(20) << Client.FullName();
+    cout << "|" << left << setw(12) << Client.Phone;
+    cout << "|" << left << setw(20) << Client.Email;
+    cout << "|" << left << setw(10) << Client.PinCode;
+    cout << "|" << left << setw(12) << Client.AccountBalance;
+    
+}
+
+void ShowClientsList()
+{
+    vector<clsBankClient> vClients = clsBankClient::GetClientsList();
+
+    cout << "\n\t\t\t\tClient list (" << vClients.size() << ") Client(s).\n";
+
+    cout << "\n________________________________________________________________________________________________\n" << endl;
+    cout << "|" << left << setw(15) << "Account Number";
+    cout << "|" << left << setw(20) << "Full Name";
+    cout << "|" << left << setw(12) << "Phone";
+    cout << "|" << left << setw(20) << "Email";
+    cout << "|" << left << setw(10) << "Pin Code";
+    cout << "|" << left << setw(12) << "Balance";
+    cout << "\n________________________________________________________________________________________________\n" << endl;
+
+    if (vClients.size() == 0)
+        cout << "\t\t\t\tno Clients Available In the System :-(";
+    else
+    {
+
+        for (clsBankClient& Client : vClients)
+        {
+            PrintClientRecordLine(Client);
+            cout << endl;
+        }
+
+    }
+    cout << "\n________________________________________________________________________________________________\n" << endl;
+
+}
+
+
 int main()
 {
-    DeleteClient();
+    ShowClientsList();
     system("pause>0");
     return 0;
 }
+
+
+
+
+
+
+
 
 
 

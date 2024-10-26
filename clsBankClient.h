@@ -13,7 +13,7 @@ class clsBankClient : public clsPerson
 {
 private:
 
-	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2};
+	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
 
 	enMode _Mode;
 	string _AccountNumber;
@@ -281,7 +281,7 @@ public:
 
 		case enMode::AddNewMode:
 		{
-			//This will add new record to ffile or database
+			//This will add new record to file or database
 			if (clsBankClient::IsClientExist(_AccountNumber))
 			{
 				return enSaveResults::svFaildAccountNumberExists;
@@ -333,6 +333,11 @@ public:
 		*this = _GetEmptyClientObject();
 
 		return true;
+	}
+
+	static vector <clsBankClient> GetClientsList()
+	{
+		return _LoadClientsDataFromFile();
 	}
 
 };
