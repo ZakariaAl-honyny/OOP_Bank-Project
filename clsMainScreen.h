@@ -3,19 +3,20 @@
 #include "clsScreen.h";
 #include "clsInputValidate.h";
 #include <iomanip>
+#include "clsClientListScreen.h"
 
 using namespace std;
 
 class clsMainScreen : protected clsScreen
 {
-
 private:
 
 	enum enMainMenueOptions {
-	eListClients = 1, eAddNewClient = 2, eDeleteClient = 3,
-	eUpdateClients = 4, eFindClient = 5, eTransactions = 6,
-	eMangeUsers = 7, eExit = 8};
-				
+		eListClients = 1, eAddNewClient = 2, eDeleteClient = 3,
+		eUpdateClients = 4, eFindClient = 5, eTransactions = 6,
+		eMangeUsers = 7, eExit = 8
+	};
+
 	static short _ReadMainMenueOption()
 	{
 
@@ -36,7 +37,8 @@ private:
 
 	static void _ShowAllClientsScreen()
 	{
-		cout << "\nClient List Screen Will be here soon...\n";
+		//cout << "\nClient List Screen Will be here soon...\n";
+		clsClientListScreen::ShowClientsList();
 	}
 
 	static void _ShowAddNewClientScreen()
