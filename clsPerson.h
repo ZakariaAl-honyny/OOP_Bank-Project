@@ -23,11 +23,13 @@ public:
 		_Phone = Phone;
 	}
 
+	//Property Set
 	void SetFirstName(string FirstName)
 	{
 		_FirstName = FirstName;
 	}
 
+	//Property Get
 	string GetFirstName()
 	{
 		return _FirstName;
@@ -77,7 +79,7 @@ public:
 		return _FirstName + " " + _LastName;
 	}
 
-	void Print()
+	/*void Print()
 	{
 		cout << "\nInfo:";
 		cout << "\n________________";
@@ -87,6 +89,6 @@ public:
 		cout << "\nEmail    : " << _Email;
 		cout << "\nPhone    : " << _Phone;
 		cout << "\n________________\n";
-	}
+	}*/
 };
 
