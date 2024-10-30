@@ -8,6 +8,8 @@
 #include "clsUpdateClientScreen.h"
 #include "clsFindClientScreen.h"
 #include "clsTransactionsScreen.h"
+#include "clsManageUsersScreen.h"
+
 
 
 using namespace std;
@@ -78,7 +80,8 @@ private:
 
 	static void _ShowMangeUsersMenue()
 	{
-		cout << "\nManage Users Menue Will be here soon...\n";
+		//cout << "\nManage Users Menue Will be here soon...\n";
+		clsManageUsersScreen::ShowMangeUsersMenue();
 	}
 
 	static void _ShowEndScreen()
@@ -164,3 +167,4 @@ public:
 		_PerformMainmenueOption((enMainMenueOptions)_ReadMainMenueOption());
 	}
 };
+
