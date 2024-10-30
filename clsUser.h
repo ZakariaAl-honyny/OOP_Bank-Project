@@ -12,7 +12,6 @@ class clsUser : public clsPerson
 {
 private:
 	enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
-
 	enMode _Mode;
 	string _UserName;
 	string _Password;
@@ -136,6 +135,12 @@ private:
 	}
 
 public:
+
+	enum enPermissions {
+		pAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
+		pUpdateClients = 8, pFindClient = 16, pTransactions = 32,
+		pManageUsers = 64
+	};
 
 	clsUser(enMode Mode, string FirstName, string LastName, string Email, string Phone, string UserName,
 		string Password, int Permissions) : clsPerson(FirstName, LastName, Email, Phone)
@@ -313,5 +318,5 @@ public:
 	{
 		return _LoadUsersDataFromFile();
 	}
-
 };
+

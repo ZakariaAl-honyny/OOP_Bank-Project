@@ -4,6 +4,7 @@
 #include "clsInputValidate.h"
 #include <iomanip>
 #include "clsListUserScreen.h"
+#include "clsAddNewUserScreen.h"
 
 using namespace std;
 
@@ -40,7 +41,8 @@ private:
 
 	static void _ShowAddNewUserScreen()
 	{
-		cout << "\nAdd New User Screen will be here soon...\n";
+		//cout << "\nAdd New User Screen will be here soon...\n";
+		clsAddNewUserScreen::ShowAddNewUserScreen();
 	}
 
 	static void _ShowDeleteUserScreen()
