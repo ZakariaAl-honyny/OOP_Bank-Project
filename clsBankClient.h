@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "clsPerson.h";
-#include "clsString.h";
+#include "clsPerson.h"
+#include "clsString.h"
 
 using namespace std;
 
@@ -353,6 +353,18 @@ public:
 		}
 
 		return TotalBalances;
+	}
+
+	void Deposit(double Amount)
+	{
+		_AccountBalance += Amount;
+		Save();
+	}
+
+	void Withdraw(double Amount)
+	{
+		_AccountBalance -= Amount;
+		Save();
 	}
 
 };
