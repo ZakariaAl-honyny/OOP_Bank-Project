@@ -1,13 +1,13 @@
 #pragma once
 #include <iostream>
-#include "clsScreen.h";
-#include "clsInputValidate.h";
+#include "clsScreen.h"
+#include "clsInputValidate.h"
 #include "clsClientListScreen.h"
 #include "clsAddNewClientScreen.h"
 #include "clsDeleteClientScreen.h"
 #include "clsUpdateClientScreen.h"
 #include "clsFindClientScreen.h"
-
+#include "clsTransactionsScreen.h"
 
 
 using namespace std;
@@ -27,7 +27,7 @@ private:
 
 		cout << setw(37) << left << "" << "Choose what do you want to do? [1 to 8]? ";
 		short Choice = 0;
-		Choice = clsInputValidate::ReadShortNumberBetween(1, 8, "\t\t\t\t\tError Enter Number between 1 to 8? ");
+		Choice = clsInputValidate::ReadShortNumberBetween(1, 8, "\t\t\t\t\tError, Enter Number between 1 to 8? ");
 
 		return Choice;
 	}
@@ -72,7 +72,8 @@ private:
 
 	static void _ShowTransactionsMenue()
 	{
-		cout << "\nTravsactions Menue Will be here soon...\n";
+		//cout << "\nTravsactions Menue Will be here soon...\n";
+		clsTransactionsScreen::ShowTransactionsMenue();
 	}
 
 	static void _ShowMangeUsersMenue()
@@ -123,17 +124,18 @@ private:
 		case enMainMenueOptions::eTransactions:
 			system("cls");
 			_ShowTransactionsMenue();
+			_GoBackToMainMenue();
 			break;
 
 		case enMainMenueOptions::eMangeUsers:
 			system("cls");
 			_ShowMangeUsersMenue();
+			_GoBackToMainMenue();
 			break;
 
 		case enMainMenueOptions::eExit:
 			system("cls");
 			_ShowEndScreen();
-			//Login();
 			break;
 
 		}
@@ -155,11 +157,10 @@ public:
 		cout << setw(37) << left << "" << "\t[3] Delete Client.\n";
 		cout << setw(37) << left << "" << "\t[4] Update Client Info.\n";
 		cout << setw(37) << left << "" << "\t[5] Find Client.\n";
-		cout << setw(37) << left << "" << "\t[6] Transactions.\n";
-		cout << setw(37) << left << "" << "\t[7] Mange Users.\n";
+		cout << setw(37) << left << "" << "\t[6] Transactions Menue.\n";
+		cout << setw(37) << left << "" << "\t[7] Mange Users Menue.\n";
 		cout << setw(37) << left << "" << "\t[8] Logout.\n";
 		cout << setw(37) << left << "" << "=============================================\n";
 		_PerformMainmenueOption((enMainMenueOptions)_ReadMainMenueOption());
 	}
 };
-
