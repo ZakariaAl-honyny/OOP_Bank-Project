@@ -6,6 +6,9 @@
 #include "clsAddNewClientScreen.h"
 #include "clsDeleteClientScreen.h"
 #include "clsUpdateClientScreen.h"
+#include "clsFindClientScreen.h"
+
+
 
 using namespace std;
 
@@ -63,7 +66,8 @@ private:
 
 	static void _ShowFindClientScreen()
 	{
-		cout << "\nFind  Client Screen Will be here soon...\n";
+		//cout << "\nFind  Client Screen Will be here soon...\n";
+		clsFindClientScreen::ShowFindClientScreen();
 	}
 
 	static void _ShowTransactionsMenue()
@@ -119,18 +123,17 @@ private:
 		case enMainMenueOptions::eTransactions:
 			system("cls");
 			_ShowTransactionsMenue();
-			_GoBackToMainMenue();
 			break;
 
 		case enMainMenueOptions::eMangeUsers:
 			system("cls");
 			_ShowMangeUsersMenue();
-			_GoBackToMainMenue();
 			break;
 
 		case enMainMenueOptions::eExit:
 			system("cls");
 			_ShowEndScreen();
+			//Login();
 			break;
 
 		}
