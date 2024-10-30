@@ -3,6 +3,7 @@
 #include "clsScreen.h"
 #include "clsInputValidate.h"
 #include <iomanip>
+#include "clsListUserScreen.h"
 
 using namespace std;
 
@@ -26,14 +27,15 @@ private:
 
 	static void _GoBackToMangeUsersMenue()
 	{
-		cout << "\n\nPress any key to go back to Mange Users menue...";
+		cout << "\n\n\tPress any key to go back to Mange Users menue...";
 		system("pause>0");
 		ShowMangeUsersMenue();
 	}
 
 	static void _ShowListUsersScreen()
 	{
-		cout << "\nList Users Screen will be here soon...\n";
+		//cout << "\nList Users Screen will be here soon...\n";
+		clsListUserScreen::ShowUsersList();
 	}
 
 	static void _ShowAddNewUserScreen()
