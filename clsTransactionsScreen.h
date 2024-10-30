@@ -4,6 +4,7 @@
 #include "clsInputValidate.h"
 #include <iomanip>
 #include "clsDepositScreen.h"
+#include "clsWithdrawScreen.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ private:
 
 	static void _GoBackToTransactionsMenue()
 	{
-		cout << "\n" << setw(8) << left << "" << "Press any key to go back to Transactions menue...";
+		cout << "\n\nPress any key to go back to Transactions menue...";
 		system("pause>0");
 		ShowTransactionsMenue();
 	}
@@ -39,7 +40,8 @@ private:
 
 	static void _ShowWithdrawScreen()
 	{
-		cout << "\nWithdraw Screen will be here soon...\n";
+		//cout << "\nWithdraw Screen will be here soon...\n";
+		clsWithdrawScreen::ShowWithdrawScreen();
 	}
 
 	static void _ShowTotalBalacesScreen()
