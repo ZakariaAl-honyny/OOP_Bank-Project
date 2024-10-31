@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include "clsScreen.h"
-#include "clsBankClient.h";
-#include "clsInputValidate.h";
+#include "clsBankClient.h"
+#include "clsInputValidate.h"
 #include <iomanip>
 
 using namespace std;
@@ -12,7 +12,7 @@ class clsClientListScreen : protected clsScreen
 {
 private:
 
-    static void PrintClientRecordLine(clsBankClient Client)
+    static void _PrintClientRecordLine(clsBankClient Client)
     {
         cout << setw(8) << left << "" << "|" << left << setw(15) << Client.AccountNumber();
         cout << "|" << left << setw(20) << Client.FullName();
@@ -27,10 +27,16 @@ public:
 
     static void ShowClientsList()
     {
+
+        if (!clsScreen::checkAccessRights(clsUser::enPermissions::pListClients))
+        {
+            return; // this will exit the function and it will not continue
+        }
+
         vector<clsBankClient> vClients = clsBankClient::GetClientsList();
 
-        string Title = "\tClient List Screen";
-        string SubTitle = "\t (" + to_string(vClients.size()) + ") Client(s).";
+        string Title = "\t   Client List Screen";
+        string SubTitle = "\t    (" + to_string(vClients.size()) + ") Client(s).";
 
         clsScreen::_DrawScreenHeader(Title, SubTitle);
 
@@ -50,7 +56,7 @@ public:
 
             for (clsBankClient& Client : vClients)
             {
-                PrintClientRecordLine(Client);
+                _PrintClientRecordLine(Client);
                 cout << endl;
             }
 

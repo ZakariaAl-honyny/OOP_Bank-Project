@@ -2,8 +2,8 @@
 #include <iostream>
 #include "clsScreen.h"
 #include "clsPerson.h"
-#include "clsBankClient.h";
-#include "clsInputValidate.h";
+#include "clsBankClient.h"
+#include "clsInputValidate.h"
 
 class clsFindClientScreen : protected clsScreen
 {
@@ -28,6 +28,11 @@ public:
 
 	static void ShowFindClientScreen()
 	{
+        if (!clsScreen::checkAccessRights(clsUser::enPermissions::pFindClient))
+        {
+            return; // this will exit the function and it will not continue
+        }
+
         _DrawScreenHeader("\t   Find Client Screen");
 
         string AccountNumber = "";
@@ -37,7 +42,7 @@ public:
 
         while (!clsBankClient::IsClientExist(AccountNumber))
         {
-            cout << "\nAccount number is not found, chooce anther one: ";
+            cout << "\nAccount number is not found, chooce another one: ";
             AccountNumber = clsInputValidate::ReadString();
         }
 
@@ -55,6 +60,5 @@ public:
         _PrintClient(Client1);
 
 	}
-
 };
 
