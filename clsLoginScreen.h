@@ -3,7 +3,6 @@
 #include <iostream>
 #include "clsScreen.h"
 #include "clsInputValidate.h"
-#include <iomanip>
 #include "clsUser.h"
 #include "clsMainScreen.h"
 #include "Global.h"
@@ -12,43 +11,58 @@ using namespace std;
 
 class clsLoginScreen : protected clsScreen
 {
+
+
 private:
 
-	static void _Login()
+	static bool _Login()
 	{
-		bool LoginFaild = false;
-		string UserName, Password;
+
+		bool _LoginFaild = false;
+		string _UserName, _Password;
+		short _FaildLoginCount = 0;
 
 		do
 		{
-			if (LoginFaild)
+			if (_LoginFaild)
 			{
+				_FaildLoginCount++;
+
 				system("cls");
 				_DrawScreenHeader("\t\tLogin Screen");
-				cout << "\nInvalid UserName/Password, Enter Again!\n";
+				cout << "\nInvalid UserName/Password, Enter Again!";
+
+				cout << "\nYou have " << 3 - _FaildLoginCount << " Trial(s) to login.\n";
+			}
+
+			if (_FaildLoginCount == 3)
+			{
+				cout << "\n\nYou are locked after 3 trial(s).\n\n";
+
+				return false;
 			}
 
 			cout << "\nEnter UserName? ";
-			UserName = clsInputValidate::ReadString();
+			_UserName = clsInputValidate::ReadString();
 			cout << "Enter Password? ";
-			Password = clsInputValidate::ReadString();
+			_Password = clsInputValidate::ReadString();
 			
-			CurrentUser = clsUser::Find(UserName, Password);
+			CurrentUser = clsUser::Find(_UserName, _Password);
 
-			LoginFaild = CurrentUser.IsEmpty();
+			_LoginFaild = CurrentUser.IsEmpty();
 
-		} while (LoginFaild);
+		} while (_LoginFaild);
 
 		clsMainScreen::ShowMainMenue();
 	}
 
 public:
 
-	static void ShowLoginScreen()
+	static bool ShowLoginScreen()
 	{
 		system("cls");
 		_DrawScreenHeader("\t\tLogin Screen");
-		_Login();
+		return _Login();
 	}
 };
 
