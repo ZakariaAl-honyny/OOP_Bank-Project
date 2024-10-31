@@ -127,6 +127,10 @@ public:
 
 	static void ShowMangeUsersMenue()
 	{
+		if (!clsScreen::checkAccessRights(clsUser::enPermissions::pManageUsers))
+		{
+			return; // this will exit the function and it will not continue
+		}
 
 		system("cls");
 		_DrawScreenHeader("\tManage Users Screen");

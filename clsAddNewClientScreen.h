@@ -1,12 +1,9 @@
 #pragma once
 #include <iostream>
 #include "clsScreen.h"
-#include "clsBankClient.h";
-#include "clsInputValidate.h";
+#include "clsBankClient.h"
+#include "clsInputValidate.h"
 #include <iomanip>
-
-using namespace std;
-
 
 class clsAddNewClientScreen : protected clsScreen
 {
@@ -51,8 +48,12 @@ private:
 
 public:
 
-    static void AddNewClient()
+    static void ShowAddNewClientScreen()
     {
+        if (!clsScreen::checkAccessRights(clsUser::enPermissions::pAddNewClient))
+        {
+            return; // this will exit the function and it will not continue
+        }
 
         _DrawScreenHeader("\t   Add New Client Screen");
 
@@ -103,5 +104,6 @@ public:
         }
 
     }
+
 };
 

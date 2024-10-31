@@ -1,16 +1,14 @@
 #pragma once
 #include <iostream>
 #include "clsScreen.h"
-#include "clsBankClient.h";
-#include "clsInputValidate.h";
-#include <iomanip>
-#include "clsAddNewClientScreen.h";
+#include "clsPerson.h"
+#include "clsBankClient.h"
+#include "clsInputValidate.h"
 
 
 class clsDeleteClientScreen : protected clsScreen
 {
 private:
-
     static void _PrintClient(clsBankClient Client)
     {
         cout << "\nClient Card:";
@@ -30,6 +28,10 @@ public:
 
     static void ShowDeleteClientScreen()
     {
+        if (!clsScreen::checkAccessRights(clsUser::enPermissions::pDeleteClient))
+        {
+            return; // this will exit the function and it will not continue
+        }
 
         _DrawScreenHeader("\t   Delete Client Screen");
 
@@ -48,7 +50,7 @@ public:
         //DeleteClient.Print();
         _PrintClient(DeleteClient);
 
-        cout << "\nAre you sure you want to delete this client Enter y/n ?: ";
+        cout << "\nAre you sure you want to delete this client y/n ?: ";
 
         char Answer = 'n';
         cin >> Answer;
