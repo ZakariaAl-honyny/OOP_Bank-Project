@@ -31,7 +31,7 @@ private:
 				system("cls");
 				_DrawScreenHeader("\t\tLogin Screen");
 				cout << "\nInvalid UserName/Password, Enter Again!";
-
+				
 				cout << "\nYou have " << 3 - _FaildLoginCount << " Trial(s) to login.\n";
 			}
 
@@ -53,6 +53,8 @@ private:
 
 		} while (_LoginFaild);
 
+		
+		CurrentUser.RegisterLogIn();
 		clsMainScreen::ShowMainMenue();
 	}
 

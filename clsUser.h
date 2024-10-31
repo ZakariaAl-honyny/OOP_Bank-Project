@@ -5,6 +5,7 @@
 #include <fstream>
 #include "clsPerson.h"
 #include "clsString.h"
+#include "clsDate.h"
 
 using namespace std;
 
@@ -18,6 +19,18 @@ private:
 	int _Permissions;
 
 	bool _MarkedForDelete = false;
+
+	string _PerparLogInRecord(string Sperator = "#//#")
+	{
+		string stRegisterRecord = "";
+
+		stRegisterRecord += clsDate::GetSystemDateTimeString() + Sperator;
+		stRegisterRecord += _UserName + Sperator;
+		stRegisterRecord += _Password + Sperator;
+		stRegisterRecord += to_string(_Permissions);
+
+		return stRegisterRecord;
+	}
 
 	static clsUser _ConvertLineToUserObject(string DateLine, string Sperator = "#//#")
 	{
@@ -135,12 +148,6 @@ private:
 	}
 
 public:
-
-	enum enPermissions {
-		pAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
-		pUpdateClients = 8, pFindClient = 16, pTransactions = 32,
-		pManageUsers = 64
-	};
 
 	clsUser(enMode Mode, string FirstName, string LastName, string Email, string Phone, string UserName,
 		string Password, int Permissions) : clsPerson(FirstName, LastName, Email, Phone)
@@ -319,6 +326,12 @@ public:
 		return _LoadUsersDataFromFile();
 	}
 
+	enum enPermissions {
+		pAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
+		pUpdateClients = 8, pFindClient = 16, pTransactions = 32,
+		pManageUsers = 64
+	};
+
 	bool CheckAccessPermssion(enPermissions Permssions)
 	{
 		if (Permssions == enPermissions::pAll)
@@ -329,6 +342,22 @@ public:
 		else
 			return false;
 
+	}
+
+	void RegisterLogIn()
+	{
+		string stDataLine = _PerparLogInRecord();
+
+		fstream MyFile1;
+		MyFile1.open("LoginRegister.txt", ios::out | ios::app);
+
+		if (MyFile1.is_open())
+		{
+
+			MyFile1 << stDataLine << endl;
+
+			MyFile1.close();
+		}
 	}
 
 };
