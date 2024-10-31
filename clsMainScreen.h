@@ -9,8 +9,8 @@
 #include "clsFindClientScreen.h"
 #include "clsTransactionsScreen.h"
 #include "clsManageUsersScreen.h"
-
-
+#include "clsLoginScreen.h"
+#include "Global.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ private:
 	enum enMainMenueOptions {
 		eListClients = 1, eAddNewClient = 2, eDeleteClient = 3,
 		eUpdateClients = 4, eFindClient = 5, eTransactions = 6,
-		eMangeUsers = 7, eExit = 8
+		eMangeUsers = 7, eLogout = 8
 	};
 
 	static short _ReadMainMenueOption()
@@ -84,9 +84,16 @@ private:
 		clsManageUsersScreen::ShowMangeUsersMenue();
 	}
 
-	static void _ShowEndScreen()
+	/*static void _ShowEndScreen()
 	{
 		cout << "\nEnd Screen Will be here soon...\n";
+	}*/
+
+	static void _LogoutScreen()
+	{
+		CurrentUser = clsUser::Find("", "");
+
+		//clsLoginScreen::ShowLoginScreen();
 	}
 
 	static void _PerformMainmenueOption(enMainMenueOptions MainMenueOption)
@@ -136,9 +143,9 @@ private:
 			_GoBackToMainMenue();
 			break;
 
-		case enMainMenueOptions::eExit:
+		case enMainMenueOptions::eLogout:
 			system("cls");
-			_ShowEndScreen();
+			//_ShowEndScreen();
 			break;
 
 		}
