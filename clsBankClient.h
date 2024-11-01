@@ -18,7 +18,7 @@ private:
 	enMode _Mode;
 	string _AccountNumber;
 	string _PinCode;
-	float _AccountBalance;
+	double _AccountBalance;
 	bool _MarkdForDelete = false;
 
 	static clsBankClient _ConvertLineToClientObject(string DateLine, string Sperator = "#//#")
@@ -139,7 +139,7 @@ private:
 public:
 
 	clsBankClient(enMode Mode, string FirstName, string LastName, string Email, string Phone, string AccountNumber,
-		string PinCode, float AccountBalance) : clsPerson(FirstName, LastName, Email, Phone)
+		string PinCode, double AccountBalance) : clsPerson(FirstName, LastName, Email, Phone)
 	{
 		_Mode = Mode;
 		_AccountNumber = AccountNumber;
@@ -172,17 +172,17 @@ public:
 
 	__declspec(property(get = GetPinCode, put = SetPinCode)) string PinCode;
 
-	void SetAccountBalance(float AccountBalance)
+	void SetAccountBalance(double AccountBalance)
 	{
 		_AccountBalance = AccountBalance;
 	}
 
-	float GetAccountBalance()
+	double GetAccountBalance()
 	{
 		return _AccountBalance;
 	}
 
-	__declspec(property(get = GetAccountBalance, put = SetAccountBalance)) float AccountBalance;
+	__declspec(property(get = GetAccountBalance, put = SetAccountBalance)) double AccountBalance;
 
 	//no UI Related code inside object
 	/*void Print()
@@ -376,6 +376,17 @@ public:
 		
 	}
 
+	bool TransferBalance(float Amount, clsBankClient& DestinationClient)
+	{
+		if (Amount > AccountBalance)
+		{
+			return false;
+		}
+
+		Withdraw(Amount);
+		DestinationClient.Deposit(Amount);
+		return true;
+	}
 };
 
 
