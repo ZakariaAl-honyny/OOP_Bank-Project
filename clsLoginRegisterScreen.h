@@ -23,10 +23,17 @@ private:
 
 public:
 
+	
+
 	static void ShowLoginRegisterScreen()
 	{
+
+		if (!clsScreen::checkAccessRights(clsUser::enPermissions::pShowLoginRegister))
+		{
+			return;//This will exit the function and it will not continue
+		}
+
 		vector <clsUser::stLoginRegisterRecord> vLoginRgisterRecords = clsUser::GetLoginRegisterList();
-		
 		string Title = "\t   Login Register Screen";
 		string SubTitle = "\t\t(" + to_string(vLoginRgisterRecords.size()) + ") Record(s)";
 
@@ -52,5 +59,6 @@ public:
 
 		cout << setw(8) << left << "" << "\n\t___________________________________________________________________________________________\n" << endl;
 
-	}	
+	}
 };
+
