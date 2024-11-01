@@ -2,9 +2,10 @@
 
 #include <iostream>
 #include <string>
+#include "InterfaseCommunication.h"
 using namespace std;
 
-class clsPerson
+class clsPerson : public InterfaseCommunication
 {
 private:
 
@@ -12,7 +13,6 @@ private:
 	string _LastName;
 	string _Email;
 	string _Phone;
-
 public:
 
 	clsPerson(string FirstName, string LastName, string Email, string Phone)
@@ -79,6 +79,26 @@ public:
 		return _FirstName + " " + _LastName;
 	}
 
+	void SendEmail(string Title, string Body)
+	{
+		// This Function Came from Interfase Communication
+		//you must write This Function here
+	}
+
+	void SendFax(string Title, string Body)
+	{
+		// This Function Came from Interfase Communication
+		//you must write This Function here
+	}
+
+	void SendSMS(string Title, string Body)
+	{
+		// This Function Came from Interfase Communication
+		//you must write This Function here
+	}
+
+	//you must write global code for all classes
+	//don't write related code UI(User Interfase) Inside Object 
 	/*void Print()
 	{
 		cout << "\nInfo:";
