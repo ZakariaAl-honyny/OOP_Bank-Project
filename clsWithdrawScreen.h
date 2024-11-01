@@ -50,17 +50,7 @@ public:
 
         double Amount = 0;
         cout << "\nPlease Enter Withdraw Amount? ";
-        Amount = clsInputValidate::ReadDblNumber();
-
-        //Validate Amount is Bigger than Current Balance 
-        //Validate in Read time
-        /*if (Amount > Client1.AccountBalance)
-        {
-            cout << "\ncan not Withdraw, Insuffecient Balance!\n";
-            cout << "\nYour Balance is: " << Client1.AccountBalance << endl;
-            cout << "\nPlease Enter Withdraw Amount? ";
-            Amount = clsInputValidate::ReadDblNumber();
-        }*/
+        Amount = clsInputValidate::ReadNumber<double>();
 
         cout << "\nAre you sure you want to perform this transaction y/n ?: ";
         char Answer = 'n';
@@ -71,20 +61,19 @@ public:
             if (Client1.Withdraw(Amount))
             {
                 cout << "\nAmount Withdrawed Successfully :-).\n";
-                cout << "\nNew Balance is = " << Client1.AccountBalance << endl;
+                cout << "\nNew Balance is = " << Client1.AccountBalance;
             }
             else
             {
                 cout << "\ncan not Withdraw, Insuffecient Balance!\n";
                 cout << "\nAmount Withdraw is: " << Amount;
-                cout << "\nYour Balance is: " << Client1.AccountBalance << endl;
+                cout << "\nYour Balance is: " << Client1.AccountBalance;
             }
         }
         else
         {
-            cout << "\nOperation was cancelled." << endl;
+            cout << "\nOperation was cancelled.\n";
         }
 
     }
 };
-

@@ -31,7 +31,7 @@ private:
 
 		cout << setw(37) << left << "" << "Choose what do you want to do? [1 to 10]? ";
 		short Choice = 0;
-		Choice = clsInputValidate::ReadShortNumberBetween(1, 10, "\t\t\t\t\tError, Enter Number between 1 to 10? ");
+		Choice = clsInputValidate::ReadNumberBetween<short>(1, 10, "\t\t\t\t\tError, Enter Number between 1 to 10? ");
 
 		return Choice;
 	}
@@ -203,4 +203,3 @@ public:
 		_PerformMainmenueOption((enMainMenueOptions)_ReadMainMenueOption());
 	}
 };
-

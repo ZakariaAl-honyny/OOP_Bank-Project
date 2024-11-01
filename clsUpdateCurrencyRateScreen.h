@@ -52,7 +52,7 @@ private:
 		float NewRate = 0;
 
 		cout << "\nEnter New Rate: ";
-		NewRate = clsInputValidate::ReadfloatNumber();
+		NewRate = clsInputValidate::ReadNumber<float>();
 
 		return NewRate;
 	}

@@ -50,7 +50,7 @@ public:
 
         double Amount = 0;
         cout << "\nPlease Enter Deposit Amount? ";
-        Amount = clsInputValidate::ReadDblNumber();
+        Amount = clsInputValidate::ReadNumber<double>();
 
         cout << "\nAre you sure you want to perform this transaction y/n ?: ";
         char Answer = 'n';

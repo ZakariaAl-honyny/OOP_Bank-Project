@@ -1,9 +1,10 @@
 #pragma once
-
 #include <iostream>
-#include "clsScreen.h"
-#include "clsUser.h"
+#include <string>
+#include "clsScreen.h";
+#include "clsUser.h";
 #include <iomanip>
+#include "clsUitil.h"
 
 using namespace std;
 
@@ -35,12 +36,14 @@ public:
 
         cout << setw(8) << left << "" << "\n\t_______________________________________";
         cout << "______________________________________________________________\n" << endl;
+
         cout << setw(8) << left << "" << "|" << left << setw(15) << "Account Number";
         cout << "|" << left << setw(25) << "Full Name";
         cout << "|" << left << setw(12) << "Phone";
         cout << "|" << left << setw(20) << "Email";
         cout << "|" << left << setw(10) << "Password";
         cout << "|" << left << setw(12) << "Permissions";
+
         cout << setw(8) << left << "" << "\n\t_______________________________________";
         cout << "______________________________________________________________\n" << endl;
 
@@ -56,6 +59,7 @@ public:
             }
 
         }
+
         cout << setw(8) << left << "" << "\n\t_______________________________________";
         cout <<"______________________________________________________________\n" << endl;
 
