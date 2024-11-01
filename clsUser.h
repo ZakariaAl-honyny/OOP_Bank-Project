@@ -6,6 +6,8 @@
 #include "clsPerson.h"
 #include "clsString.h"
 #include "clsDate.h"
+#include "clsUitil.h"
+//#include "Global.h" // this include has 100 Errors
 
 using namespace std;
 
@@ -17,7 +19,6 @@ private:
 	string _UserName;
 	string _Password;
 	int _Permissions;
-
 	bool _MarkedForDelete = false;
 
 	string _PerparLogInRecord(string Sperator = "#//#")
@@ -26,7 +27,7 @@ private:
 
 		stRegisterRecord += clsDate::GetSystemDateTimeString() + Sperator;
 		stRegisterRecord += _UserName + Sperator;
-		stRegisterRecord += _Password + Sperator;
+		stRegisterRecord += clsUitil::EncryptText(_Password) + Sperator;
 		stRegisterRecord += to_string(_Permissions);
 
 		return stRegisterRecord;
@@ -42,7 +43,7 @@ private:
 
 		LoginRegisterRecord.DateAndTime = vDataRecord[0];
 		LoginRegisterRecord.UserName = vDataRecord[1];
-		LoginRegisterRecord.Password = vDataRecord[2];
+		LoginRegisterRecord.Password = clsUitil::DecryptText(vDataRecord[2]);
 		LoginRegisterRecord.Permissions = stoi(vDataRecord[3]);
 
 		return LoginRegisterRecord;
@@ -55,8 +56,7 @@ private:
 		vUserData = clsString::Split(DateLine, Sperator);
 
 		return clsUser(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2], vUserData[3],
-			vUserData[4], vUserData[5], stod(vUserData[6]));
-
+			vUserData[4], clsUitil::DecryptText(vUserData[5]), stod(vUserData[6]));
 	}
 
 	static string _ConvertUserObjectToLine(clsUser User, string Sperator = "#//#")
@@ -68,7 +68,7 @@ private:
 		stUserRecord += User.Email + Sperator;
 		stUserRecord += User.Phone + Sperator;
 		stUserRecord += User.UserName + Sperator;
-		stUserRecord += User.Password + Sperator;
+		stUserRecord += clsUitil::EncryptText(User.Password) + Sperator;
 		stUserRecord += to_string(User.Permissions);
 
 		return stUserRecord;
@@ -168,7 +168,7 @@ public:
 	enum enPermissions {
 		pAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
 		pUpdateClients = 8, pFindClient = 16, pTransactions = 32,
-		pManageUsers = 64
+		pManageUsers = 64, pLoginRegister = 128
 	};
 
 	struct stLoginRegisterRecord

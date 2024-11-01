@@ -6,7 +6,7 @@
 #include "clsPerson.h"
 #include "clsString.h"
 #include "clsDate.h"
-//#include "Global.h"
+#include "clsUitil.h"
 
 using namespace std;
 
@@ -22,24 +22,24 @@ private:
 	double _AccountBalance;
 	bool _MarkdForDelete = false;
 
-	string _PerparTransferLogRecordLine(float TransferAmount, clsBankClient DestinationClient, string UserName, string Sperator = "#//#")
+	string _PerparTransferLogRecordLine(float TransferAmount, clsBankClient DestinationClient, string Sperator = "#//#")
 	{
 		string TransferLogRecord = "";
 
 		TransferLogRecord += clsDate::GetSystemDateTimeString() + Sperator;
-		TransferLogRecord += AccountNumber() + Sperator;
-		TransferLogRecord += DestinationClient.AccountNumber() + Sperator;
+		TransferLogRecord += _AccountNumber + Sperator;
+		TransferLogRecord += DestinationClient._AccountNumber + Sperator;
 		TransferLogRecord += to_string(TransferAmount) + Sperator;
-		TransferLogRecord += to_string(AccountBalance) + Sperator;
-		TransferLogRecord += to_string(DestinationClient.AccountBalance) + Sperator;
-		TransferLogRecord += UserName;
-
+		TransferLogRecord += to_string(_AccountBalance) + Sperator;
+		TransferLogRecord += to_string(DestinationClient._AccountBalance) + Sperator;
+		TransferLogRecord += CurrentUser.UserName;
+		//stRegisterRecordLine
 		return TransferLogRecord;
 	}
 
-	void _RegisterTransferBalancelog(float Amount, clsBankClient DestinationClient, string UserName)
+	void _RegisterTransferBalancelog(float Amount, clsBankClient DestinationClient)
 	{
-		string stDataLine = _PerparTransferLogRecordLine(Amount, DestinationClient, UserName);
+		string stDataLine = _PerparTransferLogRecordLine(Amount, DestinationClient);
 
 		fstream MyFile;
 		MyFile.open("TransferBalanceLog.txt", ios::out | ios::app);
@@ -76,7 +76,7 @@ private:
 		vClientData = clsString::Split(DateLine, Sperator);
 
 		return clsBankClient(enMode::UpdateMode, vClientData[0], vClientData[1], vClientData[2], vClientData[3],
-			vClientData[4], vClientData[5], stod(vClientData[6]));
+			vClientData[4], clsUitil::DecryptText(vClientData[5]), stod(vClientData[6]));
 
 	}
 
@@ -89,7 +89,7 @@ private:
 		stClientRecord += Client.Email + Sperator;
 		stClientRecord += Client.Phone + Sperator;
 		stClientRecord += Client.AccountNumber() + Sperator;
-		stClientRecord += Client.PinCode + Sperator;
+		stClientRecord += clsUitil::EncryptText(Client.PinCode) + Sperator;
 		stClientRecord += to_string(Client.AccountBalance);
 
 		return stClientRecord;
@@ -435,7 +435,24 @@ public:
 		
 	}
 
-	bool TransferBalance(float Amount, clsBankClient& DestinationClient, string UserName)
+	//My Solution
+	/*static bool TransferBalance(clsBankClient& FromClient, clsBankClient& ToClient, double Amount)
+	{
+		if (Amount > FromClient.AccountBalance)
+		{
+			return false;
+		}
+		else
+		{
+			FromClient.AccountBalance -= Amount;
+			FromClient.Save();
+
+			ToClient.AccountBalance += Amount;
+			ToClient.Save();
+			return true;
+		}
+	}*/
+	bool TransferBalance(float Amount, clsBankClient& DestinationClient)
 	{
 		if (Amount > AccountBalance)
 		{
@@ -444,10 +461,9 @@ public:
 
 		Withdraw(Amount);
 		DestinationClient.Deposit(Amount);
-		_RegisterTransferBalancelog(Amount, DestinationClient, UserName);
 		return true;
 	}
-	
+
 	static vector <stTransferBalaceLogRecord> GetTrnsferBalancesLogList()
 	{
 		vector <stTransferBalaceLogRecord> vTransferBalaceLogRecord;
@@ -464,7 +480,7 @@ public:
 			while (getline(MyFile, Line))
 			{
 				TransferBalaceRecord = _ConvertTransferBalanceLogLineToRecord(Line);
-				
+
 				vTransferBalaceLogRecord.push_back(TransferBalaceRecord);
 			}
 
@@ -474,4 +490,11 @@ public:
 		return vTransferBalaceLogRecord;
 	}
 
-};
+
+}; 
+
+
+
+
+
+
