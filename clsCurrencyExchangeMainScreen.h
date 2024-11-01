@@ -4,6 +4,7 @@
 #include <iomanip>
 #include "clsCurrency.h"
 #include "clsInputValidate.h"
+#include "clsCurrenciesListScreen.h"
 using namespace std;
 
 class clsCurrencyExchangeMainScreen : protected clsScreen
@@ -17,8 +18,8 @@ private:
 	static short _ReadCurrenciesMainMenueOptions()
 	{
 		short Choice = 0;
-		cout << setw(37) << left << "" << "Choose what do you want to do ? from [1 to 5] ? ";
-		Choice = clsInputValidate::ReadShortNumberBetween(1, 5, "\t\t\t\t     Invalid choose, Enter Number between [1 to 5] ? ");
+		cout << setw(37) << left << "" << "Chooce what do you want to do ? from [1 to 5] ? ";
+		Choice = clsInputValidate::ReadShortNumberBetween(1, 5, "\t\t\t\t     Invaild Choice, Enter Number between [1 to 5] ? ");
 
 		return Choice;
 	}
@@ -32,7 +33,8 @@ private:
 
 	static void _ShowCurrenciesListScreen()
 	{
-		cout << "\nCurrencies List Screen Will be here soon...";
+		//cout << "\nCurrencies List Screen Will be here soon...";
+		clsCurrenciesListScreen::ShowCurrenciesListScreen();
 	}
 
 	static void _ShowFindCurrencyScreen()
@@ -45,9 +47,9 @@ private:
 		cout << "\nUpdate Currency Rate Screen Will be here soon...";
 	}
 
-	static void _ShowCurrencyCalculatorScreen()
+	static void _ShowCurrencyCulcalatorScreen()
 	{
-		cout << "\nCurrency Calculator Screen Will be here soon...";
+		cout << "\nCurrency Culcalator Screen Will be here soon...";
 	}
 
 	static void _PerformCurrenciesMainMenueOptions(enCurrenciesMainMenueOptions CurrenciesExchangeMainMenueOption)
@@ -81,7 +83,7 @@ private:
 		case enCurrenciesMainMenueOptions::eCurrencyCulcalator:
 		{
 			system("cls");
-			_ShowCurrencyCalculatorScreen();
+			_ShowCurrencyCulcalatorScreen();
 			_GoBackToCurrenciesMenue();
 			break;
 		}
