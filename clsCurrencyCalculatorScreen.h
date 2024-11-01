@@ -29,7 +29,7 @@ private:
 	{
 		float Amount = 0;
 		cout << "\nEnter Amount To Exhange? ";
-		Amount = clsInputValidate::ReadFloatNumber();
+		Amount = clsInputValidate::ReadNumber<float>();
 
 		return Amount;
 	}

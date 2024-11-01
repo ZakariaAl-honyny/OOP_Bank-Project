@@ -3,7 +3,7 @@
 #include "clsScreen.h"
 #include "clsPerson.h"
 #include "clsUser.h"
-#include "clsInputValidate.h"
+#include "clsInputValidate.h";
 
 class clsUpdateUserScreen : protected clsScreen
 {
@@ -28,7 +28,7 @@ private:
         User.Password = clsInputValidate::ReadString();
 
         cout << "\nEnter Permissions: ";
-        User.Permissions = _ReadPermissionsToSet();
+        User.Permissions = clsInputValidate::ReadNumber<int>();
     }
 
     static void _PrintUser(clsUser User)
@@ -107,6 +107,13 @@ private:
         if (Answer == 'Y' || Answer == 'y')
         {
             Permissions += clsUser::enPermissions::pManageUsers;
+        }
+
+        cout << "\nShow Login Register? y/n? ";
+        cin >> Answer;
+        if (Answer == 'Y' || Answer == 'y')
+        {
+            Permissions += clsUser::enPermissions::pLoginRegister;
         }
 
         return  Permissions;

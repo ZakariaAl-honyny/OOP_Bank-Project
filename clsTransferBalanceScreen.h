@@ -4,7 +4,6 @@
 #include "clsInputValidate.h"
 #include "clsBankClient.h"
 
-using namespace std;
 
 class clsTransferBalanceScreen : protected clsScreen
 {
@@ -28,6 +27,7 @@ private:
 
 		while (!clsBankClient::IsClientExist(AccountNumber))
 		{
+
 			cout << "\nAccount Number is not found, chooce Another one? ";
 			AccountNumber = clsInputValidate::ReadString();
 		}
@@ -39,12 +39,12 @@ private:
 		float Amount = 0;
 
 		cout << "\nEnter Transfer Amount? ";
-		Amount = clsInputValidate::ReadfloatNumber();
+		Amount = clsInputValidate::ReadNumber<float>();
 
 		while (Amount > SourceClient.AccountBalance)
 		{
 			cout << "\nAmount Exceeds the available balance, Enter Another Amount? ";
-			Amount = clsInputValidate::ReadfloatNumber();
+			Amount = clsInputValidate::ReadNumber<float>();
 		}
 		return Amount;
 	}
@@ -69,14 +69,16 @@ public:
 		
 		float Amount = _ReadAmount(SourceClient);
 
+
 		cout << "\nAre you sure, you want to perform this operation? y/n? ";
 		char Answer = 'n';
 		cin >> Answer;
 		if (Answer == 'Y' || Answer == 'y')
 		{
-			if (SourceClient.TransferBalance(Amount, DestinationClient, CurrentUser.UserName))
+			if (SourceClient.TransferBalance(Amount, DestinationClient))
 			{
 				cout << "\nTransfer done successfully :-).\n";
+
 			}
 			else
 			{

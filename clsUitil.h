@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include "clsDate.h";
+#include "clsDate.h"
 
 using namespace std;
 
@@ -114,16 +114,18 @@ public:
 			arr[i] = GenerateKey(CharType);
 	}
 
-	static void Swap(bool& A, bool& B)
+	template <typename T>
+	static void Swa(T& A, T& B)
 	{
-		bool Temp;
+		T Temp;
 
 		Temp = A;
 		A = B;
 		B = Temp;
 	}
 
-	static void Swap(int& A, int& B)
+	//you don't need this functions because above we used (teplate function) to use all or any (datatype function)
+	/*static void Swap(int& A, int& B)
 	{
 		int Temp;
 
@@ -150,11 +152,6 @@ public:
 		B = Temp;
 	}
 
-	static void Swap(clsDate& Date1, clsDate& Date2)
-	{
-		clsDate::SwapDates(Date1, Date2);
-	}
-
 	static void Swap(string& A, string& B)
 	{
 		string Temp;
@@ -164,13 +161,18 @@ public:
 		B = Temp;
 	}
 
-	static void SwapChar(char& A, char& B)
+	static void Swap(char& A, char& B)
 	{
 		char Temp;
 
 		Temp = A;
 		A = B;
 		B = Temp;
+	}*/
+
+	static void Swap(clsDate& Date1, clsDate& Date2)
+	{
+		clsDate::SwapDates(Date1, Date2);
 	}
 
 	static void ShuffleArray(int arr[], int arrLength)
@@ -201,7 +203,7 @@ public:
 		return t;
 	}
 
-	static string EncryptText(string Text, short EncryptionKey)
+	static string EncryptText(string Text, short EncryptionKey=2)
 	{
 		for (int i = 0; i <= Text.length(); i++)
 		{
@@ -210,7 +212,7 @@ public:
 		return Text;
 	}
 
-	static string DecryptText(string Text, short EncryptionKey)
+	static string DecryptText(string Text, short EncryptionKey=2)
 	{
 		for (int i = 0; i <= Text.length(); i++)
 		{
@@ -282,8 +284,19 @@ public:
 		{
 			return NumberToText(Number % 1000000000) + " Billions " + NumberToText(Number % 1000000000);
 		}
-
 	}
 
-
 };
+
+
+
+
+
+
+
+
+
+
+
+
+

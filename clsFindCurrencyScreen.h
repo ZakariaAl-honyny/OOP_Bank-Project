@@ -13,7 +13,7 @@ private:
 	{
 		short FindBy = 2;
 		cout << "\nFind by : [1]:Currency Code or [2]:Country? ";
-		FindBy = clsInputValidate::ReadShortNumberBetween(1, 2, "\nInvaild Input chooce again, Find by : [1]:Currency Code or [2]:Country? ");
+		FindBy = clsInputValidate::ReadNumberBetween<short>(1, 2, "\nInvaild Input chooce again, Find by : [1]:Currency Code or [2]:Country? ");
 
 		return (enFindBy)FindBy;
 	}
