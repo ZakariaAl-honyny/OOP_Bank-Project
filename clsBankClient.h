@@ -33,7 +33,7 @@ private:
 		TransferLogRecord += to_string(AccountBalance) + Sperator;
 		TransferLogRecord += to_string(DestinationClient.AccountBalance) + Sperator;
 		TransferLogRecord += UserName;
-		
+
 		return TransferLogRecord;
 	}
 
@@ -50,6 +50,23 @@ private:
 
 			MyFile.close();
 		}
+	}
+
+	struct stTransferBalaceLogRecord;
+	static stTransferBalaceLogRecord _ConvertTransferBalanceLogLineToRecord(string stDataLine, string Sperator = "#//#")
+	{
+		stTransferBalaceLogRecord TransferBalaceLogRecord;
+		vector <string> vTransferBalaceLogRecordLine = clsString::Split(stDataLine, Sperator);
+
+		TransferBalaceLogRecord.DateTime = vTransferBalaceLogRecordLine[0];
+		TransferBalaceLogRecord.SourceAccountNumber = vTransferBalaceLogRecordLine[1];
+		TransferBalaceLogRecord.DestinationAccountNumber = vTransferBalaceLogRecordLine[2];
+		TransferBalaceLogRecord.TransferAmount = stof(vTransferBalaceLogRecordLine[3]);
+		TransferBalaceLogRecord.SourceBalanceAfterTransfered = stof(vTransferBalaceLogRecordLine[4]);
+		TransferBalaceLogRecord.DestinationBalanceAfterTransfered = stof(vTransferBalaceLogRecordLine[5]);
+		TransferBalaceLogRecord.UserName = vTransferBalaceLogRecordLine[6];
+
+		return TransferBalaceLogRecord;
 	}
 
 	static clsBankClient _ConvertLineToClientObject(string DateLine, string Sperator = "#//#")
@@ -168,6 +185,17 @@ private:
 	}
 
 public:
+
+	struct stTransferBalaceLogRecord
+	{
+		string DateTime;
+		string SourceAccountNumber;
+		string DestinationAccountNumber;
+		float TransferAmount;
+		float SourceBalanceAfterTransfered;
+		float DestinationBalanceAfterTransfered;
+		string UserName;
+	};
 
 	clsBankClient(enMode Mode, string FirstName, string LastName, string Email, string Phone, string AccountNumber,
 		string PinCode, double AccountBalance) : clsPerson(FirstName, LastName, Email, Phone)
@@ -418,6 +446,32 @@ public:
 		DestinationClient.Deposit(Amount);
 		_RegisterTransferBalancelog(Amount, DestinationClient, UserName);
 		return true;
+	}
+	
+	static vector <stTransferBalaceLogRecord> GetTrnsferBalancesLogList()
+	{
+		vector <stTransferBalaceLogRecord> vTransferBalaceLogRecord;
+
+		fstream MyFile;
+		MyFile.open("TransferBalanceLog.txt", ios::in);//Read Mode
+
+		if (MyFile.is_open())
+		{
+
+			string Line;
+			stTransferBalaceLogRecord TransferBalaceRecord;
+
+			while (getline(MyFile, Line))
+			{
+				TransferBalaceRecord = _ConvertTransferBalanceLogLineToRecord(Line);
+				
+				vTransferBalaceLogRecord.push_back(TransferBalaceRecord);
+			}
+
+			MyFile.close();
+		}
+
+		return vTransferBalaceLogRecord;
 	}
 
 };
