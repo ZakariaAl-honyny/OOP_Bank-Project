@@ -1,10 +1,10 @@
 #pragma once
 #include <iostream>
 #include "clsScreen.h"
-#include "clsPerson.h"
 #include "clsInputValidate.h"
 #include "clsBankClient.h"
 
+using namespace std;
 
 class clsTransferBalanceScreen : protected clsScreen
 {
@@ -54,11 +54,17 @@ public:
 	static void ShowTransferBalanceScreen()
 	{
 		clsScreen::_DrawScreenHeader("\tTransfer Balance Screen");
-
-		clsBankClient SourceClient = clsBankClient::Find(_ReadAccountNumber("\nPlease Enter Account Number to transfer from: "));
+		
+		string SourceAccountNumber = _ReadAccountNumber("\nPlease Enter Account Number to transfer from: ");
+		clsBankClient SourceClient = clsBankClient::Find(SourceAccountNumber);
 		_PerintShortClintCard(SourceClient);
 
-		clsBankClient DestinationClient = clsBankClient::Find(_ReadAccountNumber("\nPlease Enter Account Number to transfer to: "));
+		string DestinationAccountNumber = _ReadAccountNumber("\nPlease Enter Account Number to transfer to: ");
+		while (SourceAccountNumber == DestinationAccountNumber)
+		{
+			DestinationAccountNumber = _ReadAccountNumber("\nInvaild you Can not Transfer Balance to the same Account Number, Enter Another One? ");
+		}
+		clsBankClient DestinationClient = clsBankClient::Find(DestinationAccountNumber);
 		_PerintShortClintCard(DestinationClient);
 		
 		float Amount = _ReadAmount(SourceClient);
@@ -68,7 +74,7 @@ public:
 		cin >> Answer;
 		if (Answer == 'Y' || Answer == 'y')
 		{
-			if (SourceClient.TransferBalance(Amount, DestinationClient))
+			if (SourceClient.TransferBalance(Amount, DestinationClient, CurrentUser.UserName))
 			{
 				cout << "\nTransfer done successfully :-).\n";
 			}
