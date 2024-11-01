@@ -6,6 +6,7 @@
 #include "clsInputValidate.h"
 #include "clsCurrenciesListScreen.h"
 #include "clsFindCurrencyScreen.h"
+#include "clsUpdateCurrencyRateScreen.h"
 using namespace std;
 
 class clsCurrencyExchangeMainScreen : protected clsScreen
@@ -46,7 +47,8 @@ private:
 
 	static void _ShowUpdateCurrencyRateScreen()
 	{
-		cout << "\nUpdate Currency Rate Screen Will be here soon...";
+		//cout << "\nUpdate Currency Rate Screen Will be here soon...";
+		clsUpdateCurrencyRateScreen::ShowUpdateCurrencyRateScreen();
 	}
 
 	static void _ShowCurrencyCulcalatorScreen()
@@ -110,7 +112,7 @@ public:
 		cout << setw(37) << left << "" << "=============================================\n";
 		cout << setw(37) << left << "" << "\t[1] List Currencies.\n";
 		cout << setw(37) << left << "" << "\t[2] Find Currency.\n";
-		cout << setw(37) << left << "" << "\t[3] Update Rate.\n";
+		cout << setw(37) << left << "" << "\t[3] Update Currency Rate.\n";
 		cout << setw(37) << left << "" << "\t[3] Currency Culcalator.\n";
 		cout << setw(37) << left << "" << "\t[5] Main Screen.\n";
 		cout << setw(37) << left << "" << "=============================================\n";
