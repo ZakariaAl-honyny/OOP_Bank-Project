@@ -204,4 +204,23 @@ public:
 		return vCurrencys;
 	}
 
+	float ConvertToUSD(float Amount)
+	{
+		return (float)(Amount / Rate());
+	}
+
+	float ConvertToAnotherCurrency(float Amount, clsCurrency CurrencyTo)
+	{
+		float AmountInUSD = ConvertToUSD(Amount);
+
+		if (CurrencyTo.CurrencyCode() == "USD")
+		{
+			return AmountInUSD;
+		}
+
+		return (float)(AmountInUSD * CurrencyTo.Rate());
+	}
+
 };
+
+
