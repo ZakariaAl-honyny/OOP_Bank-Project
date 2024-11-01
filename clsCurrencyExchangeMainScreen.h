@@ -7,6 +7,7 @@
 #include "clsCurrenciesListScreen.h"
 #include "clsFindCurrencyScreen.h"
 #include "clsUpdateCurrencyRateScreen.h"
+#include "clsCurrencyCalculatorScreen.h"
 using namespace std;
 
 class clsCurrencyExchangeMainScreen : protected clsScreen
@@ -14,14 +15,14 @@ class clsCurrencyExchangeMainScreen : protected clsScreen
 private:
 	enum enCurrenciesMainMenueOptions {
 		eListCurrencies = 1, eFindCurrency = 2,  eUpdateCurrencyRate = 3,
-		eCurrencyCulcalator = 4, eMainScreen = 5
+		eCurrencyCalculator = 4, eMainScreen = 5
 	};
 
 	static short _ReadCurrenciesMainMenueOptions()
 	{
 		short Choice = 0;
 		cout << setw(37) << left << "" << "Chooce what do you want to do ? from [1 to 5] ? ";
-		Choice = clsInputValidate::ReadShortNumberBetween(1, 5, "\t\t\t\t     Invaild Choice, Enter Number between [1 to 5] ? ");
+		Choice = clsInputValidate::ReadIntNumberBetween(1, 5, "\t\t\t\t     Invaild Choice, Enter Number between [1 to 5] ? ");
 
 		return Choice;
 	}
@@ -51,9 +52,10 @@ private:
 		clsUpdateCurrencyRateScreen::ShowUpdateCurrencyRateScreen();
 	}
 
-	static void _ShowCurrencyCulcalatorScreen()
+	static void _ShowCurrencyCalculatorScreen()
 	{
-		cout << "\nCurrency Culcalator Screen Will be here soon...";
+		//cout << "\nCurrency Calculator Screen Will be here soon...";
+		clsCurrencyCalculatorScreen	::ShowCurrencyCalculatorScreen();
 	}
 
 	static void _PerformCurrenciesMainMenueOptions(enCurrenciesMainMenueOptions CurrenciesExchangeMainMenueOption)
@@ -84,10 +86,10 @@ private:
 			break;
 		}
 
-		case enCurrenciesMainMenueOptions::eCurrencyCulcalator:
+		case enCurrenciesMainMenueOptions::eCurrencyCalculator:
 		{
 			system("cls");
-			_ShowCurrencyCulcalatorScreen();
+			_ShowCurrencyCalculatorScreen();
 			_GoBackToCurrenciesMenue();
 			break;
 		}
@@ -113,10 +115,9 @@ public:
 		cout << setw(37) << left << "" << "\t[1] List Currencies.\n";
 		cout << setw(37) << left << "" << "\t[2] Find Currency.\n";
 		cout << setw(37) << left << "" << "\t[3] Update Currency Rate.\n";
-		cout << setw(37) << left << "" << "\t[3] Currency Culcalator.\n";
+		cout << setw(37) << left << "" << "\t[4] Currency Calculator.\n";
 		cout << setw(37) << left << "" << "\t[5] Main Screen.\n";
 		cout << setw(37) << left << "" << "=============================================\n";
 		_PerformCurrenciesMainMenueOptions((enCurrenciesMainMenueOptions)_ReadCurrenciesMainMenueOptions());
 	}
 };
-
