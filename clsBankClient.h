@@ -1,11 +1,12 @@
 #pragma once
-
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 #include "clsPerson.h"
 #include "clsString.h"
+#include "clsDate.h"
+//#include "Global.h"
 
 using namespace std;
 
@@ -20,6 +21,36 @@ private:
 	string _PinCode;
 	double _AccountBalance;
 	bool _MarkdForDelete = false;
+
+	string _PerparTransferLogRecordLine(float TransferAmount, clsBankClient DestinationClient, string UserName, string Sperator = "#//#")
+	{
+		string TransferLogRecord = "";
+
+		TransferLogRecord += clsDate::GetSystemDateTimeString() + Sperator;
+		TransferLogRecord += AccountNumber() + Sperator;
+		TransferLogRecord += DestinationClient.AccountNumber() + Sperator;
+		TransferLogRecord += to_string(TransferAmount) + Sperator;
+		TransferLogRecord += to_string(AccountBalance) + Sperator;
+		TransferLogRecord += to_string(DestinationClient.AccountBalance) + Sperator;
+		TransferLogRecord += UserName;
+		
+		return TransferLogRecord;
+	}
+
+	void _RegisterTransferBalancelog(float Amount, clsBankClient DestinationClient, string UserName)
+	{
+		string stDataLine = _PerparTransferLogRecordLine(Amount, DestinationClient, UserName);
+
+		fstream MyFile;
+		MyFile.open("TransferBalanceLog.txt", ios::out | ios::app);
+
+		if (MyFile.is_open())
+		{
+			MyFile << stDataLine << endl;
+
+			MyFile.close();
+		}
+	}
 
 	static clsBankClient _ConvertLineToClientObject(string DateLine, string Sperator = "#//#")
 	{
@@ -376,7 +407,7 @@ public:
 		
 	}
 
-	bool TransferBalance(float Amount, clsBankClient& DestinationClient)
+	bool TransferBalance(float Amount, clsBankClient& DestinationClient, string UserName)
 	{
 		if (Amount > AccountBalance)
 		{
@@ -385,15 +416,8 @@ public:
 
 		Withdraw(Amount);
 		DestinationClient.Deposit(Amount);
+		_RegisterTransferBalancelog(Amount, DestinationClient, UserName);
 		return true;
 	}
+
 };
-
-
-
-
-
-
-
-
-
