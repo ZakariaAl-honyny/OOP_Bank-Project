@@ -32,6 +32,22 @@ private:
 		return stRegisterRecord;
 	}
 
+	struct stLoginRegisterRecord;
+	static stLoginRegisterRecord _ConvertLoginRegisterLineToRecord(string DateLine, string Sperator = "#//#")
+	{
+		stLoginRegisterRecord LoginRegisterRecord;
+
+		vector<string> vDataRecord;
+		vDataRecord = clsString::Split(DateLine, Sperator);
+
+		LoginRegisterRecord.DateAndTime = vDataRecord[0];
+		LoginRegisterRecord.UserName = vDataRecord[1];
+		LoginRegisterRecord.Password = vDataRecord[2];
+		LoginRegisterRecord.Permissions = stoi(vDataRecord[3]);
+
+		return LoginRegisterRecord;
+	}
+
 	static clsUser _ConvertLineToUserObject(string DateLine, string Sperator = "#//#")
 	{
 
@@ -149,6 +165,20 @@ private:
 
 public:
 
+	enum enPermissions {
+		pAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
+		pUpdateClients = 8, pFindClient = 16, pTransactions = 32,
+		pManageUsers = 64
+	};
+
+	struct stLoginRegisterRecord
+	{
+		string DateAndTime;
+		string UserName;
+		string Password;
+		int Permissions;
+	};
+
 	clsUser(enMode Mode, string FirstName, string LastName, string Email, string Phone, string UserName,
 		string Password, int Permissions) : clsPerson(FirstName, LastName, Email, Phone)
 	{
@@ -157,6 +187,8 @@ public:
 		_Password = Password;
 		_Permissions = Permissions;
 	}
+
+	
 
 	bool IsEmpty()
 	{
@@ -326,12 +358,6 @@ public:
 		return _LoadUsersDataFromFile();
 	}
 
-	enum enPermissions {
-		pAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
-		pUpdateClients = 8, pFindClient = 16, pTransactions = 32,
-		pManageUsers = 64
-	};
-
 	bool CheckAccessPermssion(enPermissions Permssions)
 	{
 		if (Permssions == enPermissions::pAll)
@@ -358,6 +384,32 @@ public:
 
 			MyFile1.close();
 		}
+	}
+
+	static vector<stLoginRegisterRecord> GetLoginRegisterList()
+	{
+		vector<stLoginRegisterRecord>  vLiginRegjsterRecords;
+
+		fstream MyFile;
+		MyFile.open("LoginRegister.txt", ios::in);//Read Mode
+
+		if (MyFile.is_open())
+		{
+			string Line;
+
+			stLoginRegisterRecord LoginRegisterRecord;
+
+			while (getline(MyFile, Line))
+			{
+				LoginRegisterRecord = _ConvertLoginRegisterLineToRecord(Line);
+
+				vLiginRegjsterRecords.push_back(LoginRegisterRecord);
+			}
+
+			MyFile.close();
+		}
+
+		return vLiginRegjsterRecords;
 	}
 
 };
